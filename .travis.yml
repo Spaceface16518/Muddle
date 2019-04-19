@@ -3,6 +3,9 @@ language: go
 go:
   - 1.12.2
 
+env:
+  - GO111MODULE=on
+
 os:
   - linux
   - osx
@@ -11,5 +14,5 @@ os:
 before_script: go version
 
 script:
-  - env GO111MODULE=on go test ${gobuild_args} ./...
-  - env GO111MODULE=on go test ${gobuild_args} ./... -bench '.*'
+  - go test ${gobuild_args} ./...
+  - go test ${gobuild_args} ./... -bench '.*'
