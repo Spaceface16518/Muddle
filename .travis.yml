@@ -1,9 +1,9 @@
-language: golang
+language: go
 
 go:
   - 1.12.2
 
-# install: go mod download
+before_script: go version
 
 script:
   - go test ${gobuild_args} ./...
