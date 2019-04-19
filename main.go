@@ -78,7 +78,10 @@ func main() {
 		var hash string
 		if !noHash {
 			log.Println("Hashing translations used")
-			hash = util.HashTranslations(&result)
+			hash, err = util.HashTranslations(&result)
+			if err != nil {
+				log.Fatalf("Error hashing translations: %v", err)
+			}
 			log.Printf("Hashed translations: %s", hash)
 		} else {
 			log.Println("Skipping hash")

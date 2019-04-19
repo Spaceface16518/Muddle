@@ -6,11 +6,16 @@ import (
 )
 
 // HashTranslations takes a pointer to a list of translation names and outputs the hash of the result as a hexadecimal string
-func HashTranslations(used *[]string) string {
+func HashTranslations(used *[]string) (string, error) {
 	hasher := fnv.New32()
-	for _, lang := range *used {
-		hasher.Write([]byte(lang))
+	_, err := writeAll(used, hasher)
+	if err != nil {
+		return "", err
 	}
 	sum := hasher.Sum32()
-	return fmt.Sprintf("%x", sum)
+	return hashToString(sum), nil
+}
+
+func hashToString(hash uint32) string {
+	return fmt.Sprintf("%x", hash)
 }
