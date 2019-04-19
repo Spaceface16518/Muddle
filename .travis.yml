@@ -3,7 +3,7 @@ language: golang
 go:
   - 1.12.2
 
-install: go mod download
+# install: go mod download
 
 script:
   - go test ${gobuild_args} ./...
