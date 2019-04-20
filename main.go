@@ -33,7 +33,7 @@ func init() {
 
 	flag.BoolVar(&save, "save", false, "Save to path or the current directory")
 	flag.BoolVar(&noHash, "no-hash", false, "Disables hashing of the language story")
-	flag.StringVar(&savePath, "path", "", "The path to save to. An empty string or omittance implies the working directory.")
+	flag.StringVar(&savePath, "path", ".", "The path to save to; defaults to the working directory")
 	flag.IntVar(&iterations, "iterations", 5, "The minimum translations to complete before attempting to return to english")
 
 	flag.Parse()
@@ -89,14 +89,8 @@ func main() {
 		}
 		var path string
 		var err error
-		log.Println("Finding save path")
-		if savePath == "" {
-			log.Println("Defaulting to current directory")
-			path, err = os.Getwd()
-		} else {
-			log.Println("Cleaning given save path")
-			path, err = filepath.Abs(savePath)
-		}
+		log.Println("Finding save location")
+		path, err = filepath.Abs(savePath)
 		if err != nil {
 			util.Dump(result)
 			log.Println("Result dumped to standard output")
