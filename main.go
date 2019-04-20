@@ -22,6 +22,9 @@ var save bool
 var noHash bool
 var savePath string
 var iterations int
+var langCode string
+var outLangCode string
+var reportTranslation bool
 
 func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -35,8 +38,15 @@ func init() {
 	flag.BoolVar(&noHash, "no-hash", false, "Disables hashing of the language story")
 	flag.StringVar(&savePath, "path", "", "The path to save to. An empty string or omittance implies the working directory.")
 	flag.IntVar(&iterations, "iterations", 5, "The minimum translations to complete before attempting to return to english")
+	flag.StringVar(&langCode, "language", "en", "The language code of the input (for example, 'en' for English, 'es' for Spanish, etc)")
+	flag.StringVar(&outLangCode, "out-language", "", "The language code of the output. If not provided, defaults to the input language.")
+	flag.BoolVar(&reportTranslation, "report", false, "Dump the current text after each translation")
 
 	flag.Parse()
+
+	if outLangCode == "" {
+		outLangCode = langCode
+	}
 }
 
 func main() {
@@ -61,15 +71,20 @@ func main() {
 		panic(err)
 	}
 
-	firstLang := "en" // TODO: detect language instead
-	prevLang, result := translation.Translate(languageTranslator, &text, &firstLang)
+	prevLang, result := translation.Translate(languageTranslator, &text, &langCode)
+	if reportTranslation {
+		log.Printf("Translation: %s\n", result)
+	}
 	langsUsed := make([]string, 2, 12)
-	langsUsed[0], langsUsed[1] = firstLang, prevLang
+	langsUsed[0], langsUsed[1] = langCode, prevLang
 
 	for i := 1; ; i++ {
 		prevLang, result = translation.Translate(languageTranslator, &result, &prevLang)
+		if reportTranslation {
+			log.Printf("Translation: %s\n", result)
+		}
 		langsUsed = append(langsUsed, prevLang)
-		if i >= iterations && prevLang == "en" {
+		if i >= iterations && prevLang == outLangCode {
 			break
 		}
 	}
