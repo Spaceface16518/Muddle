@@ -68,6 +68,20 @@ Other important options are those involving saving and path information. Muddle 
 $ cat my-lyrics.txt | ./muddle -save -path ./translated-lyrics-dir/my-lyrics/
 ```
 
+You can also specify the input and output languages using the `-language` and `-out-language` flags. Muddle trusts that the input language matches the language of the actual input provided and will not preform any checks before preforming translation. If the `-out-language` is not provided, it will default to the language specified by `-language`; for example
+
+```
+$ cat ma-chanson.txt | ./muddle -language fr
+```
+
+would yield output in French, whereas
+
+```
+$ cat ma-chanson.txt | ./muddle -language fr -out-language en
+```
+
+would yield output in English, while still going through the same process of random translation.
+
 ## Credentials
 
 If you get an error about credentials, you will need to get a bit more technical. This program does not in fact use Google Translate, but instead uses IBM Watson's Language Translator service. You will need an `ibm-credentials.env` file in your working directory.
