@@ -9,6 +9,8 @@ require (
 	github.com/go-playground/universal-translator v0.16.0 // indirect
 	github.com/joho/godotenv v1.3.0
 	github.com/leodido/go-urn v1.1.0 // indirect
+	github.com/onsi/ginkgo v1.8.0 // indirect
+	github.com/onsi/gomega v1.5.0 // indirect
 	github.com/watson-developer-cloud/go-sdk v0.7.0
 	golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2
 	gopkg.in/go-playground/validator.v9 v9.28.0 // indirect
