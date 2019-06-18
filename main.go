@@ -147,7 +147,12 @@ func main() {
 
 		log.Printf("Saving to %s\n", fileName)
 		file, err := os.Create(fileName)
-		defer file.Close()
+		defer func() {
+			err := file.Close()
+			if err != nil {
+				panic(err)
+			}
+		}()
 		if err != nil {
 			util.Dump(result)
 			log.Fatalf("There was an error (%v) while creating the save file. Contents have been dumped to standard output.\n", err)
