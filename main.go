@@ -54,7 +54,7 @@ func main() {
 	url := os.Getenv("LANGUAGE_TRANSLATOR_URL")
 
 	log.Println("Reading input")
-	text := []string{}
+	var text []string
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		text = append(text, scanner.Text())
